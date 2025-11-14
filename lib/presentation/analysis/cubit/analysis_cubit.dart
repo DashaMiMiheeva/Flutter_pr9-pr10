@@ -30,11 +30,11 @@ class AnalysisCubit extends Cubit<AnalysisState> {
     final activity = user.activity.toDouble();
 
     emit(AnalysisState(
-      calories: calories.toDouble(),
-      proteins: proteins.toDouble(),
-      fats: fats.toDouble(),
-      carbs: carbs.toDouble(),
-      activity: activity.toDouble(),
+      calories: calories,
+      proteins: proteins,
+      fats: fats,
+      carbs: carbs,
+      activity: activity,
     ));
   }
 }

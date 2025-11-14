@@ -5,6 +5,7 @@ import '../../data/model/food.dart';
 import '../../data/model/user.dart';
 import '../profile/user_cubit.dart';
 import '../dairy/cubit/diary_cubit.dart';
+import 'cubit/analysis_cubit.dart';
 
 class AnalysisScreen extends StatelessWidget {
   const AnalysisScreen({super.key});
@@ -25,7 +26,6 @@ class AnalysisScreen extends StatelessWidget {
                 value: progress,
                 strokeWidth: 12,
               ),
-              // Показываем текущие / максимум
               Text(
                 "${current.toInt()} / ${max.toInt()}",
                 style: const TextStyle(
@@ -44,17 +44,20 @@ class AnalysisScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Анализ питания")),
-      body: BlocBuilder<UserCubit, User>(
-        builder: (context, user) {
-          return BlocBuilder<DiaryCubit, List<Food>>(
-            builder: (context, diary) {
-              // Считаем текущее потребление из дневника
-              final calories = diary.fold(0.0, (sum, f) => sum + f.calories.toDouble());
-              final proteins = diary.fold(0.0, (sum, f) => sum + f.proteins);
-              final fats = diary.fold(0.0, (sum, f) => sum + f.fats);
-              final carbs = diary.fold(0.0, (sum, f) => sum + f.carbs);
+    return BlocProvider(
+      create: (_) {
+        final cubit = AnalysisCubit();
+        final diary = context.read<DiaryCubit>().state;
+        final user = context.read<UserCubit>().state;
+        cubit.updateFromDiary(diary, user);
+        return cubit;
+      },
+      child: Scaffold(
+        appBar: AppBar(title: const Text("Анализ питания")),
+        body: Center(
+          child: BlocBuilder<AnalysisCubit, AnalysisState>(
+            builder: (context, analysis) {
+              final user = context.read<UserCubit>().state;
 
               return SingleChildScrollView(
                 child: Padding(
@@ -64,18 +67,18 @@ class AnalysisScreen extends StatelessWidget {
                     runSpacing: 20,
                     alignment: WrapAlignment.center,
                     children: [
-                      _circle("Ккал", calories, user.calories.toDouble()),
-                      _circle("Белки", proteins, user.protein.toDouble()),
-                      _circle("Жиры", fats, user.fat.toDouble()),
-                      _circle("Углеводы", carbs, user.carbs.toDouble()),
-                      _circle("Активность", 0.0, user.activity.toDouble()), // пока 0
+                      _circle("Ккал", analysis.calories, user.calories.toDouble()),
+                      _circle("Белки", analysis.proteins, user.protein.toDouble()),
+                      _circle("Жиры", analysis.fats, user.fat.toDouble()),
+                      _circle("Углеводы", analysis.carbs, user.carbs.toDouble()),
+                      _circle("Активность", analysis.activity, user.activity.toDouble()),
                     ],
                   ),
                 ),
               );
             },
-          );
-        },
+          ),
+        ),
       ),
     );
   }

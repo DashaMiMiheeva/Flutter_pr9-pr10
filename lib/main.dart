@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_pr9/presentation/count/calculator_screen.dart';
+import 'package:flutter_pr9/presentation/count/cubit/calculator_cubit.dart';
 import 'package:flutter_pr9/presentation/welcome/register_screen.dart';
 import 'package:go_router/go_router.dart';
 
@@ -42,6 +44,8 @@ class App extends StatelessWidget {
               providers: [
                 BlocProvider(create: (_) => DiaryCubit(locator.get<FoodRepository>())),
                 BlocProvider.value(value: context.read<UserCubit>()),
+
+                BlocProvider(create: (_) => CalculatorCubit()),
               ],
               child: MainNavigation(child: child),
             );
@@ -50,6 +54,7 @@ class App extends StatelessWidget {
             GoRoute(path: '/diary', builder: (_, __) => const DiaryScreen()),
             GoRoute(path: '/analysis', builder: (_, __) => const AnalysisScreen()),
             GoRoute(path: '/profile', builder: (_, __) => ProfileScreen()),
+            GoRoute(path: '/count', builder: (_, __) => const CalculatorScreen()),
           ],
         ),
       ],
@@ -59,7 +64,12 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routerConfig: router,
       title: "Дневник питания",
-      theme: ThemeData(primarySwatch: Colors.pink),
+      theme: ThemeData(
+        primarySwatch: Colors.pink, bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: Colors.pink,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white70,
+      ))
     );
   }
 }

@@ -12,7 +12,7 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   int _index = 0;
 
-  final _pages = ['/diary', '/analysis', '/profile'];
+  final _pages = ['/diary', '/analysis', '/profile', '/count'];
 
   void _onTap(int i) {
     setState(() => _index = i);
@@ -23,13 +23,17 @@ class _MainNavigationState extends State<MainNavigation> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: widget.child,
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _index,
-        onTap: _onTap,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.list), label: "Дневник"),
-          BottomNavigationBarItem(icon: Icon(Icons.pie_chart), label: "Анализ"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Профиль"),
+      bottomNavigationBar: NavigationBar(
+        backgroundColor: Colors.white54,
+        selectedIndex: _index,
+        onDestinationSelected: _onTap,
+        indicatorColor: Colors.white24,
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+        destinations: const [
+          NavigationDestination(icon: Icon(Icons.list), label: "Дневник"),
+          NavigationDestination(icon: Icon(Icons.pie_chart), label: "Анализ"),
+          NavigationDestination(icon: Icon(Icons.person), label: "Профиль"),
+          NavigationDestination(icon: Icon(Icons.calculate), label: "Расчет"),
         ],
       ),
     );
