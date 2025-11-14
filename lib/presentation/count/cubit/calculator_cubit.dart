@@ -47,8 +47,8 @@ class CalculatorCubit extends Cubit<CalculatorState> {
     required int weight,
     required int height,
     required int age,
-    required String sex, // "male" или "female"
-    required double activityLevel, // коэффициент активности
+    required String sex,
+    required double activityLevel,
   }) {
     double bmr;
     if (sex == "male") {
@@ -61,7 +61,6 @@ class CalculatorCubit extends Cubit<CalculatorState> {
 
     double calories = bmr * multiplier;
 
-    // Применяем цель
     switch (state.goal) {
       case Goal.lose:
         calories *= 0.8;
@@ -73,7 +72,6 @@ class CalculatorCubit extends Cubit<CalculatorState> {
         break;
     }
 
-    // Примерное распределение БЖУ: белки 30%, жиры 25%, углеводы 45%
     double protein = calories * 0.3 / 4;
     double fat = calories * 0.25 / 9;
     double carbs = calories * 0.45 / 4;
@@ -83,7 +81,7 @@ class CalculatorCubit extends Cubit<CalculatorState> {
       protein: protein,
       fat: fat,
       carbs: carbs,
-      activity: bmr * (multiplier - 1), // лишние калории от активности
+      activity: bmr * (multiplier - 1),
     ));
   }
 }

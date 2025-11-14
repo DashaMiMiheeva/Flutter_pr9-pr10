@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_pr9/data/model/user.dart';
-
 import '../../../data/model/food.dart';
 
 class AnalysisState {

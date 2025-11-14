@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-
 import '../../data/model/user.dart';
 
 class UserCubit extends Cubit<User> {

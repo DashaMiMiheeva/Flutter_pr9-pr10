@@ -1,4 +1,3 @@
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../data/model/food.dart';
 import '../../../data/repository/food_repository.dart';
@@ -17,3 +16,4 @@ class DiaryCubit extends Cubit<List<Food>> {
     emit(repo.foods);
   }
 }
+

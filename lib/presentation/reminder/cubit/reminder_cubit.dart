@@ -42,3 +42,4 @@ class ReminderCubit extends Cubit<ReminderSettings> {
   void setLunchTime(DateTime time) => emit(state.copyWith(lunchTime: time));
   void setDinnerTime(DateTime time) => emit(state.copyWith(dinnerTime: time));
 }
+
